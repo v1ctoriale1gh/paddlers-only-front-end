@@ -1,15 +1,30 @@
 const statesPath = "http:/localhost:3000/states"
-const statesContainer = document.getElementById("states-container")
 const app = document.getElementById("app")
 const button = document.getElementById("dropdownMenu2")
 
-fetch(statesPath)
+
+function renderStates() {
+  let statesContainer = document.getElementById("states-container")
+  fetch(statesPath)
     .then(function(obj){
         return obj.json()
       })
       .then(function(statesArray) {
           statesArray.forEach((state) => {statesContainer.innerHTML += makeStateButton(state)})
       });
+}
+
+function backToStates() {
+    button.innerText = "Please Choose A State"
+    let eventsDiv = document.getElementById("events-div")
+    let optionsContainer = document.getElementById("options-container")
+    let citiesContainer = document.getElementById("cities-container")
+    eventsDiv.remove()
+    optionsContainer.innerHTML = ""
+    optionsContainer.removeAttribute("id", "options-container")
+    optionsContainer.setAttribute("id", "states-container")
+    renderStates()
+}
 
 function makeStateButton(state) {
      return `
@@ -37,6 +52,7 @@ function makeEventCard(event) {
 
 function changeToCitiesFromStates(e) {
     button.innerText = "Please Choose A City"
+    let statesContainer = document.getElementById("states-container")
     statesContainer.removeAttribute("id", "states-container")
     statesContainer.setAttribute("id", "cities-container")
     let citiesContainer = document.getElementById("cities-container")
@@ -52,6 +68,26 @@ function changeToCitiesFromStates(e) {
         })
 };
 
+function backToCities(e) {
+    button.innerText = "Please Choose A City"
+    let eventsDiv = document.getElementById("events-div")   
+    eventsDiv.remove()
+    let optionsContainer = document.getElementById("options-container")
+    optionsContainer.removeAttribute("id", "options-container")
+    optionsContainer.setAttribute("id", "cities-container")
+    let citiesContainer = document.getElementById("cities-container")
+    citiesContainer.innerHTML = ""
+    let stateId = e.target.dataset.state
+    let cityPath = statesPath + `/${stateId}/cities`
+    fetch(cityPath)
+        .then(function(obj){
+            return obj.json()
+        })
+        .then(function(citiesArray) {
+            citiesArray.forEach((city) => {citiesContainer.innerHTML += makeCityButton(city)})
+        });
+}
+
 function changeToEventsFromCities(e) {
     button.innerText = "Menu"
     let citiesContainer = document.getElementById("cities-container")
@@ -61,7 +97,7 @@ function changeToEventsFromCities(e) {
     optionsContainer.innerHTML = `
     <button class="dropdown-item" id="newEvent" type="button">Make A New Event!</button>
     <button class="dropdown-item" id="backToStates" type="button">Go Back To States</button>
-    <button class="dropdown-item" id="backToCities" type="button">Go Back To Cities</button>
+    <button class="dropdown-item" id="backToCities" data-state="${e.target.dataset.state}" type="button">Go Back To Cities</button>
     `
     let eventsDiv = document.createElement('div')
     eventsDiv.setAttribute("id", "events-div")
@@ -79,7 +115,7 @@ function changeToEventsFromCities(e) {
               })
 };
 
-function renderNewCityForm(e) {
+function renderNewEventForm(e) {
     let eventsDiv = document.getElementById("events-div")
     eventsDiv.innerHTML = `
     <br><br>
@@ -143,14 +179,21 @@ function renderNewCityForm(e) {
   </div>`
 }
 
+renderStates()
 
 app.addEventListener("click", (e) => {
     if (e.target.id === "state") {
+        e.preventDefault()
         changeToCitiesFromStates(e)
     } else if (e.target.id === "city") {
         changeToEventsFromCities(e)
     } else if (e.target.id === "newEvent") {
-        renderNewCityForm(e)
+        renderNewEventForm(e)
+    } else if (e.target.id === "backToStates") {
+        e.preventDefault()
+        backToStates()
+    } else if (e.target.id === "backToCities") {
+        backToCities(e)
     }
 });
 
