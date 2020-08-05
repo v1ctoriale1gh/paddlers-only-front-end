@@ -119,19 +119,19 @@ function renderNewEventForm(e) {
     let eventsDiv = document.getElementById("events-div")
     eventsDiv.innerHTML = `
     <br><br>
-    <div class="card col-md-8 mx-auto" style="max-width: 30rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
+    <div class="card col-md-8 mx-auto" style="max-width: 50rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
     <br>
     <form>
     <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+      <label for="name" class="col-sm-2 col-form-label">Name</label>
       <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3">
+        <input type="text" class="form-control" id="name">
       </div>
     </div>
     <div class="form-group row">
-      <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+      <label for="Description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword3">
+        <input type="textarea" class="form-control" id="description">
       </div>
     </div>
     <fieldset class="form-group">
@@ -172,7 +172,7 @@ function renderNewEventForm(e) {
     </div>
     <div class="form-group row">
       <div class="col-sm-10">
-        <button type="submit" class="btn btn-outline-warning">submit</button>
+        <button type="submit" class="btn btn-outline-info">submit</button>
       </div>
     </div>
   </form>
