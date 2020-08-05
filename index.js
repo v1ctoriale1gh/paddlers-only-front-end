@@ -1,6 +1,7 @@
 const statesPath = "http:/localhost:3000/states"
 const statesContainer = document.getElementById("states-container")
 const app = document.getElementById("app")
+const button = document.getElementById("dropdownMenu2")
 
 fetch(statesPath)
     .then(function(obj){
@@ -35,7 +36,6 @@ function makeEventCard(event) {
 };
 
 function changeToCitiesFromStates(e) {
-    let button = document.getElementById("dropdownMenu2")
     button.innerText = "Please Choose A City"
     statesContainer.removeAttribute("id", "states-container")
     statesContainer.setAttribute("id", "cities-container")
@@ -53,7 +53,20 @@ function changeToCitiesFromStates(e) {
 };
 
 function changeToEventsFromCities(e) {
-    app.innerHTML = `<h3 style="color: warning;">Here's every event in ${e.target.innerText}:</h3>`
+    button.innerText = "Menu"
+    let citiesContainer = document.getElementById("cities-container")
+    citiesContainer.removeAttribute("id", "cities-container")
+    citiesContainer.setAttribute("id", "options-container")
+    let optionsContainer = document.getElementById("options-container")
+    optionsContainer.innerHTML = `
+    <button class="dropdown-item" id="newEvent" type="button">Make A New Event!</button>
+    <button class="dropdown-item" id="backToStates" type="button">Go Back To States</button>
+    <button class="dropdown-item" id="backToCities" type="button">Go Back To Cities</button>
+    `
+    let eventsDiv = document.createElement('div')
+    eventsDiv.setAttribute("id", "events-div")
+    app.appendChild(eventsDiv)
+    eventsDiv.innerHTML += `<h3 style="color: warning;">Here's every event in ${e.target.innerText}:</h3>`
     let stateId = e.target.dataset.state
     let cityId = e.target.dataset.city
     let eventsPath = statesPath + `/${stateId}/cities/${cityId}/events`
@@ -62,9 +75,14 @@ function changeToEventsFromCities(e) {
             return obj.json()
           })
               .then(function(eventsArray) {
-                  eventsArray.forEach((event) => {app.innerHTML += makeEventCard(event)})
+                  eventsArray.forEach((event) => {eventsDiv.innerHTML += makeEventCard(event)})
               })
 };
+
+function renderNewCityForm(e) {
+    let eventsDiv = document.getElementById("events-div")
+    eventsDiv.innerHTML = ""
+}
 
 
 app.addEventListener("click", (e) => {
@@ -72,6 +90,8 @@ app.addEventListener("click", (e) => {
         changeToCitiesFromStates(e)
     } else if (e.target.id === "city") {
         changeToEventsFromCities(e)
+    } else if (e.target.id === "newEvent") {
+        renderNewCityForm(e)
     }
 });
 
