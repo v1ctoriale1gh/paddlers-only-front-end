@@ -1,0 +1,69 @@
+.text-custom {
+    color: rgba(226, 134, 64, 0.94);
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+.dropdown-toggle {   
+    overflow: hidden;
+    padding-right: 24px /* Optional for caret */;
+    text-align: center;
+    text-overflow: ellipsis;    
+    width: 100%;
+}
+
+.dropdown-menu { 
+    color: rgba(226, 134, 64, 0.94);
+    font-family: "Lucida Console", Monaco, monospace;  
+    overflow: hidden;
+    padding-right: 24px /* Optional for caret */;
+    text-align: center;
+    text-overflow: ellipsis;    
+    width: 100%; !important
+}
+
+.dropdown-item:hover {
+    color: rgba(12, 134, 149, 0.94) !important;
+    background-color: rgba(226, 134, 64, 0.94) !important;
+    }
+
+    .dropdown-item {
+        color: rgba(12, 134, 149, 0.94) !important;
+        }
+
+.dropdown-item:active {
+        color: rgba(12, 134, 149, 0.94) !important;
+        background-color: rgba(226, 134, 64, 0.94) !important;
+        }
+
+.btn-outline-warning:active {
+    color: rgba(12, 134, 149, 0.94) !important;
+    background-color: rgba(226, 134, 64, 0.94) !important;
+
+}
+.btn-outline-warning:hover {
+    color: rgba(12, 134, 149, 0.94) !important;
+    background-color: rgba(226, 134, 64, 0.94) !important;
+
+}
+.btn-outline-warning:disabled {
+    color: rgba(12, 134, 149, 0.94) !important;
+    background-color: rgba(226, 134, 64, 0.94) !important;
+
+
+
+.dropdown-item { 
+    color: rgba(226, 134, 64, 0.94);
+    font-family: "Lucida Console", Monaco, monospace;  
+    overflow: hidden;
+    padding-right: 24px /* Optional for caret */;
+    text-align: center;
+    text-overflow: ellipsis;    
+    width: 100%; !important;
+}
+
+/* Optional for caret */
+.dropdown-toggle .caret {
+    position: absolute;
+    right: 12px;
+    top: calc(50% - 2px);
+}
