@@ -47,7 +47,7 @@
 }
 .btn-outline-warning:disabled {
     color: rgba(12, 134, 149, 0.94) !important;
-    background-color: rgba(226, 134, 64, 0.94) !important;
+    background-color: rbga(226, 134, 64, 0.94) !important;
 
 
 
@@ -66,4 +66,12 @@
     position: absolute;
     right: 12px;
     top: calc(50% - 2px);
+}
+
+div.dropdown-menu#states-container:onclick {
+  position: relative !important; 
+    will-change: transform;
+    top: 0px;
+    left: 0px;
+    transform: translate3d(-5px, -219px, 0px)  ;
 }
