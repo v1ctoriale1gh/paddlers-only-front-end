@@ -6,23 +6,56 @@ const button = document.getElementById("dropdownMenu2")
 //first function call to render states on landing page
 renderStates()
 
-//one event listener to rule them all
+//one click event listener to rule them all
 app.addEventListener("click", (e) => {
     if (e.target.id === "state") {
-        e.preventDefault()
         changeToCitiesFromStates(e)
     } else if (e.target.id === "city") {
         changeToEventsFromCities(e)
     } else if (e.target.id === "newEvent") {
-      console.log(e.target)
         renderNewEventForm(e)
     } else if (e.target.id === "backToStates") {
-        e.preventDefault()
         backToStates()
     } else if (e.target.id === "backToCities") {
         backToCities(e)
     }
 });
+
+// event listener for new event form
+app.addEventListener("submit", (e) => {
+  e.preventDefault()
+  console.log(e.target)
+  let info = []
+  e.target.querySelectorAll('input').forEach((input) => {
+    info.push(input.value)
+  })
+  let description = document.getElementById('description').value
+  info.push(description)
+  fetch(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      event: {
+        name: info[0],
+        contact: info[2],
+        address1: info[3],
+        address2: info[4],
+        city_id: e.target.dataset.city,
+        state: e.target.dataset.state,
+        zip: info[6],
+        date: info[7],
+        description: info[8]
+      }
+    })
+  })
+  .then(function(e){
+    console.log(e)
+  })
+
+})
 
 //function for original landing page to render states in dropdown
 function renderStates() {
@@ -113,7 +146,7 @@ function changeToEventsFromCities(e) {
     citiesContainer.setAttribute("id", "options-container")
     let optionsContainer = document.getElementById("options-container")
     optionsContainer.innerHTML = `
-    <button class="dropdown-item" id="newEvent" data-cityname="${e.target.dataset.cityname}" data-city="${e.target.dataset.city}" type="button">Make A New Event!</button>
+    <button class="dropdown-item" id="newEvent" data-cityname="${e.target.dataset.cityname}" data-city="${e.target.dataset.city}" data-state="${e.target.dataset.state}" type="button">Make A New Event!</button>
     <button class="dropdown-item" id="backToStates" type="button">Go Back To States</button>
     <button class="dropdown-item" id="backToCities" data-state="${e.target.dataset.state}" type="button">Go Back To Cities</button>
     `
@@ -154,7 +187,7 @@ function renderNewEventForm(e) {
     eventsDiv.innerHTML = `
     <br><br>
     <div class="card col-md-8 mx-auto justify-content-center" style="max-width: 50rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
-    <form>
+    <form data-state="${e.target.dataset.state}" data-city="${e.target.dataset.city}" >
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="name">Event Name:</label>
@@ -241,29 +274,13 @@ function renderNewEventForm(e) {
     </div>
     <div class="form-group">
       <label for="description">Date:</label>
-      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+      <input class="form-control" type="date" id="example-date-input">
     </div>
     <div class="form-group">
       <label for="description">Description:</label>
-      <textarea class="form-control" id="description" rows="6" placeholder="Ex: Morning Paddle on flat water at the lake at Sweetwater Creek State Park. Difficulty Level: Beginner.  Maximum 5 people. Meet up at 9 am, expected finish time around Noon.  Please provide your own shuttle vehicle, PFD, paddles, and kayak or SUPB as none are available for rent. Use contact information to RSVP."></textarea>
+      <textarea class="form-control" id="description" rows="6" placeholder="Ex: Morning Paddle on flat water at the lake at Sweetwater Creek State Park. Difficulty Level: Beginner.  Maximum 5 people. Meet up at 9 am, expected finish time around Noon.  Please provide your own shuttle vehicle, PFD, paddles, and kayak or SUPB as none are available for rent. There is no cost for this event.  Use contact information to RSVP."></textarea>
     </div>
-    <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="cost?">
-        <label class="form-check-label" for="gridCheck">
-          Click if this Event has a cost
-        </label>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="shuttle_provided?">
-        <label class="form-check-label" for="gridCheck">
-          Click if this Event has a shuttle provided
-        </label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-outline-info">Submit</button><br>
+    <button type="submit" class="btn btn-outline-info">Submit</button>
   </form>`
 }
 
