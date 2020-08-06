@@ -23,14 +23,18 @@ app.addEventListener("click", (e) => {
 
 // event listener for new event form
 app.addEventListener("submit", (e) => {
+  // prevent the form from submitting
   e.preventDefault()
-  console.log(e.target)
+  // create an array to make the config object
   let info = []
   e.target.querySelectorAll('input').forEach((input) => {
     info.push(input.value)
   })
+  //get that dang description on to the info array
   let description = document.getElementById('description').value
   info.push(description)
+  //FETCH REQUEST #4 POST REQUEST (THIS FILLS ALL THE PROJECT REQUIREMENTS)
+  // make the fetch request (post to events index)
   fetch(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`, {
     method: "POST",
     headers: {
@@ -40,20 +44,28 @@ app.addEventListener("submit", (e) => {
     body: JSON.stringify({
       event: {
         name: info[0],
-        contact: info[2],
-        address1: info[3],
-        address2: info[4],
+        contact: info[1],
+        address1: info[2],
+        address2: info[3],
         city_id: e.target.dataset.city,
         state: e.target.dataset.state,
-        zip: info[6],
-        date: info[7],
-        description: info[8]
+        zip: info[5],
+        date: info[6],
+        description: info[7]
       }
     })
   })
-  .then(function(e){
-    console.log(e)
-  })
+  //turn the response to json
+  .then(response => response.json())
+  //render the errors if there are some
+              .then(eventsArray => {
+                  if (!!eventsArray.errors){
+                      alert(eventsArray.errors)
+                  } else {
+                    changeToEventsFromForm(eventsArray, e)
+                  }
+              })
+              .catch(errors => alert(errors))
 
 })
 
@@ -167,6 +179,18 @@ function changeToEventsFromCities(e) {
               })
 };
 
+//function to change back to events after making a new event
+function changeToEventsFromForm(eventsArray, e) {
+  let formDiv = document.getElementById("events-div")
+  formDiv.remove()
+  let eventsDiv = document.createElement('div')
+  eventsDiv.setAttribute("id", "events-div")
+  app.appendChild(eventsDiv)
+  eventsDiv.innHTML = ""
+  eventsDiv.innerHTML += `<h3 style="color: warning;">Here's every event in ${e.target.dataset.cityname}:</h3>`
+  eventsArray.forEach((event) => {eventsDiv.innerHTML += makeEventCard(event)})
+};
+
 //function to make an event - is called in changeToEventsFromCities
 function makeEventCard(event) {
     return `
@@ -187,7 +211,7 @@ function renderNewEventForm(e) {
     eventsDiv.innerHTML = `
     <br><br>
     <div class="card col-md-8 mx-auto justify-content-center" style="max-width: 50rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
-    <form data-state="${e.target.dataset.state}" data-city="${e.target.dataset.city}" >
+    <form data-state="${e.target.dataset.state}" data-city="${e.target.dataset.city}" data-cityname="${e.target.dataset.cityname}">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="name">Event Name:</label>
@@ -273,7 +297,7 @@ function renderNewEventForm(e) {
       </div>
     </div>
     <div class="form-group">
-      <label for="description">Date:</label>
+      <label for="description">Date: (must be after today) </label>
       <input class="form-control" type="date" id="example-date-input">
     </div>
     <div class="form-group">
