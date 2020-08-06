@@ -26,6 +26,7 @@ app.addEventListener("click", (e) => {
 //function for original landing page to render states in dropdown
 function renderStates() {
   let statesContainer = document.getElementById("states-container")
+  //FETCH REQUEST #1 GET REQUEST STATES INDEX
   fetch(statesPath)
     .then(function(obj){
         return obj.json()
@@ -65,6 +66,7 @@ function changeToCitiesFromStates(e) {
     citiesContainer.innerHTML = ""
     let stateId = e.target.dataset.state
     let cityPath = statesPath + `/${stateId}/cities`
+    //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
     fetch(cityPath)
         .then(function(obj){
             return obj.json()
@@ -121,6 +123,7 @@ function changeToEventsFromCities(e) {
     let stateId = e.target.dataset.state
     let cityId = e.target.dataset.city
     let eventsPath = statesPath + `/${stateId}/cities/${cityId}/events`
+    //FETCH REQUEST #3 GET REQUEST TO EVENTS INDEX
     fetch(eventsPath)
         .then(function(obj){
             return obj.json()
@@ -157,7 +160,7 @@ function renderNewEventForm(e) {
         <input type="text" class="form-control" id="name" placeholder="Ex: Sweetwater Creek Morning Paddle">
       </div>
       <div class="form-group col-md-6">
-        <label for="contact">Contact:</label>
+        <label for="contact">Contact Info:</label>
         <input type="text" class="form-control" id="contact" placeholder="Ex: Bob Smith - bsmith@email.com">
       </div>
     </div>
@@ -171,11 +174,11 @@ function renderNewEventForm(e) {
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="city">City</label>
+        <label for="city">City:</label>
         <input type="text" class="form-control" id="city">
       </div>
       <div class="form-group col-md-4">
-        <label for="state">State</label>
+        <label for="state">State:</label>
         <select id="state" class="form-control">
             <option>Alabama</option>
             <option>Alaska</option>
@@ -231,13 +234,17 @@ function renderNewEventForm(e) {
         </select>
       </div>
       <div class="form-group col-md-2">
-        <label for="zip">Zip</label>
+        <label for="zip">Zip:</label>
         <input type="text" class="form-control" id="zip">
       </div>
     </div>
     <div class="form-group">
+      <label for="description">Date:</label>
+      <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+    </div>
+    <div class="form-group">
       <label for="description">Description:</label>
-      <textarea class="form-control" id="description" rows="3" placeholder="REMEMBER TO ADD EXAMPLE DESCRIPTION HERE"></textarea>
+      <textarea class="form-control" id="description" rows="6" placeholder="Ex: Morning Paddle on flat water at the lake at Sweetwater Creek State Park. Difficulty Level: Beginner.  Maximum 5 people. Meet up at 9 am, expected finish time around Noon.  Please provide your own shuttle vehicle, PFD, paddles, and kayak or SUPB as none are available for rent. Use contact information to RSVP."></textarea>
     </div>
     <div class="form-group">
       <div class="form-check">
