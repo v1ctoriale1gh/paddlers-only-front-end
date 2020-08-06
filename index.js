@@ -14,6 +14,7 @@ app.addEventListener("click", (e) => {
     } else if (e.target.id === "city") {
         changeToEventsFromCities(e)
     } else if (e.target.id === "newEvent") {
+      console.log(e.target)
         renderNewEventForm(e)
     } else if (e.target.id === "backToStates") {
         e.preventDefault()
@@ -100,7 +101,7 @@ function backToCities(e) {
 //function to make a city button - is called in changeToCitiesFromStates and backToCities
 function makeCityButton(city) {
     return `
-   <button class="dropdown-item" type="button" id="city" data-city="${city.id}" data-state="${city.state_id}">${city.name}</button>
+   <button class="dropdown-item" type="button" id="city" data-city="${city.id}" data-cityname="${city.name}" data-state="${city.state_id}">${city.name}</button>
    `
 };
 
@@ -112,7 +113,7 @@ function changeToEventsFromCities(e) {
     citiesContainer.setAttribute("id", "options-container")
     let optionsContainer = document.getElementById("options-container")
     optionsContainer.innerHTML = `
-    <button class="dropdown-item" id="newEvent" type="button">Make A New Event!</button>
+    <button class="dropdown-item" id="newEvent" data-cityname="${e.target.dataset.cityname}" data-city="${e.target.dataset.city}" type="button">Make A New Event!</button>
     <button class="dropdown-item" id="backToStates" type="button">Go Back To States</button>
     <button class="dropdown-item" id="backToCities" data-state="${e.target.dataset.state}" type="button">Go Back To Cities</button>
     `
@@ -165,8 +166,8 @@ function renderNewEventForm(e) {
       </div>
     </div>
     <div class="form-group">
-      <label for="address">Address:</label>
-      <input type="text" class="form-control" id="address" placeholder="1234 Main St">
+      <label for="address1">Address:</label>
+      <input type="text" class="form-control" id="address1" placeholder="1234 Main St">
     </div>
     <div class="form-group">
       <label for="address2">Address 2:</label>
@@ -175,7 +176,7 @@ function renderNewEventForm(e) {
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="city">City:</label>
-        <input type="text" class="form-control" id="city">
+        <input type="text" class="form-control" id="city" placeholder="${e.target.dataset.cityname}">
       </div>
       <div class="form-group col-md-4">
         <label for="state">State:</label>
@@ -248,7 +249,7 @@ function renderNewEventForm(e) {
     </div>
     <div class="form-group">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="has_cost?">
+        <input class="form-check-input" type="checkbox" id="cost?">
         <label class="form-check-label" for="gridCheck">
           Click if this Event has a cost
         </label>
