@@ -122,12 +122,10 @@ function changeToCitiesFromStates(e) {
     //setting variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityPath = stateAdapter.baseURL + `/${stateId}/cities`
+    //initialize a new cityAdapter
+    let cityAdapter = new CityAdapter(cityPath)
     //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
-    fetch(cityPath)
-      //turn the response into json
-        .then(function(obj){
-            return obj.json()
-        })
+    cityAdapter.fetchCities()
         //interate over array to make cities in dropdown
         .then(function(citiesArray) {
             citiesArray.forEach((city) => {citiesContainer.innerHTML += makeCityButton(city)})
@@ -148,7 +146,10 @@ function backToCities(e) {
   //set variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityPath = stateAdapter.baseURL + `/${stateId}/cities`
-    fetch(cityPath)
+    //initialize a new cityAdapter
+    let cityAdapter = new CityAdapter(cityPath)
+    //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
+    cityAdapter.fetchCities()
         .then(function(obj){
             return obj.json()
         })
