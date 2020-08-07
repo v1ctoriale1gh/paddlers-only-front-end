@@ -36,33 +36,25 @@ app.addEventListener("submit", (e) => {
   //get that dang description on to the info array
   let description = document.getElementById('description').value
   info.push(description)
+  //make a config object to pass into event adapter
+  let configObject = { event: {
+    name: info[0],
+    contact: info[1],
+    address1: info[2],
+    address2: info[3],
+    //choosing to override user inputs for city and state to keep event foreign keys correct
+    city_id: e.target.dataset.city,
+    state: e.target.dataset.state,
+    zip: info[5],
+    date: info[6],
+    description: info[7]
+  }}
+
+  //initialize new event adapter
+  let eventAdapter = new EventAdapter(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`)
   //FETCH REQUEST #4 POST REQUEST (THIS FILLS ALL THE PROJECT REQUIREMENTS)
   // make the fetch request (post to events index)
-  fetch(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`, {
-    method: "POST",
-    headers: {
-      //type of content sent and will recieve
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    // configuration object turned to json string to send to events create
-    body: JSON.stringify({
-      event: {
-        name: info[0],
-        contact: info[1],
-        address1: info[2],
-        address2: info[3],
-        //choosing to override user inputs for city and state to keep event foreign keys correct
-        city_id: e.target.dataset.city,
-        state: e.target.dataset.state,
-        zip: info[5],
-        date: info[6],
-        description: info[7]
-      }
-    })
-  })
-  //turn the response to json
-  .then(response => response.json())
+  eventAdapter.createEvent(configObject)
   //render the errors if there are some
               .then(eventsArray => {
                   if (!!eventsArray.errors){
@@ -188,11 +180,10 @@ function changeToEventsFromCities(e) {
     let stateId = e.target.dataset.state
     let cityId = e.target.dataset.city
     let eventsPath = stateAdapter.baseURL + `/${stateId}/cities/${cityId}/events`
-    //FETCH REQUEST #3 GET REQUEST TO EVENTS INDEX
-    fetch(eventsPath)
-        .then(function(obj){
-            return obj.json()
-          })
+    //initialize a new event adapter
+    let eventAdapter = new EventAdapter(eventsPath)
+    //fetch request inside of event adapter
+    eventAdapter.fetchEvents()
               .then(function(eventsArray) {
                   eventsArray.forEach((event) => {eventsDiv.innerHTML += makeEventCard(event)})
               })
