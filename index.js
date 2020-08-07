@@ -1,12 +1,15 @@
 //beginning const variables
-const statesPath = "http:/localhost:3000/states"
+
 const app = document.getElementById("app")
 const button = document.getElementById("dropdownMenu2")
+
+//FETCH REQUEST IS IN STATE ADAPTER - initialize a new one with a baseURL
+const stateAdapter = new StateAdapter("http:/localhost:3000/states")
 
 //first function call to render states on landing page
 renderStates()
 
-//one click event listener to rule them all for clicks
+//one click event listener to rule them all
 app.addEventListener("click", (e) => {
     if (e.target.id === "state") {
         changeToCitiesFromStates(e)
@@ -76,11 +79,8 @@ app.addEventListener("submit", (e) => {
 //function for original landing page to render states in dropdown
 function renderStates() {
   let statesContainer = document.getElementById("states-container")
-  //FETCH REQUEST #1 GET REQUEST STATES INDEX
-  fetch(statesPath)
-    .then(function(obj){
-        return obj.json()
-      })
+  //FETCH REQUEST #1 GET REQUEST STATES INDEX (call the funtion in state adapter)
+  stateAdapter.fetchStates()
       .then(function(statesArray) {
           statesArray.forEach((state) => {statesContainer.innerHTML += makeStateButton(state)})
       });
@@ -121,7 +121,7 @@ function changeToCitiesFromStates(e) {
     citiesContainer.innerHTML = ""
     //setting variables to pass into fetch request
     let stateId = e.target.dataset.state
-    let cityPath = statesPath + `/${stateId}/cities`
+    let cityPath = stateAdapter.baseURL + `/${stateId}/cities`
     //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
     fetch(cityPath)
       //turn the response into json
@@ -147,7 +147,7 @@ function backToCities(e) {
     citiesContainer.innerHTML = ""
   //set variables to pass into fetch request
     let stateId = e.target.dataset.state
-    let cityPath = statesPath + `/${stateId}/cities`
+    let cityPath = stateAdapter.baseURL + `/${stateId}/cities`
     fetch(cityPath)
         .then(function(obj){
             return obj.json()
@@ -186,7 +186,7 @@ function changeToEventsFromCities(e) {
     //set variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityId = e.target.dataset.city
-    let eventsPath = statesPath + `/${stateId}/cities/${cityId}/events`
+    let eventsPath = stateAdapter.baseURL + `/${stateId}/cities/${cityId}/events`
     //FETCH REQUEST #3 GET REQUEST TO EVENTS INDEX
     fetch(eventsPath)
         .then(function(obj){
