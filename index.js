@@ -6,7 +6,7 @@ const button = document.getElementById("dropdownMenu2")
 //first function call to render states on landing page
 renderStates()
 
-//one click event listener to rule them all
+//one click event listener to rule them all for clicks
 app.addEventListener("click", (e) => {
     if (e.target.id === "state") {
         changeToCitiesFromStates(e)
@@ -38,15 +38,18 @@ app.addEventListener("submit", (e) => {
   fetch(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`, {
     method: "POST",
     headers: {
+      //type of content sent and will recieve
       "Content-Type": "application/json",
       Accept: "application/json"
     },
+    // configuration object turned to json string to send to events create
     body: JSON.stringify({
       event: {
         name: info[0],
         contact: info[1],
         address1: info[2],
         address2: info[3],
+        //choosing to override user inputs for city and state to keep event foreign keys correct
         city_id: e.target.dataset.city,
         state: e.target.dataset.state,
         zip: info[5],
@@ -62,6 +65,7 @@ app.addEventListener("submit", (e) => {
                   if (!!eventsArray.errors){
                       alert(eventsArray.errors)
                   } else {
+                    //following pessimistic rendering rendering the events again after getting response from server
                     changeToEventsFromForm(eventsArray, e)
                   }
               })
@@ -84,14 +88,18 @@ function renderStates() {
 
 //function to go back to states from menu
 function backToStates() {
+  //change the drop down
     button.innerText = "Please Choose A State"
     let eventsDiv = document.getElementById("events-div")
     let optionsContainer = document.getElementById("options-container")
     let citiesContainer = document.getElementById("cities-container")
+    // get rid of events or form
     eventsDiv.remove()
+    //change options container back to states container
     optionsContainer.innerHTML = ""
     optionsContainer.removeAttribute("id", "options-container")
     optionsContainer.setAttribute("id", "states-container")
+    //render the states in dropdown
     renderStates()
 }
 
@@ -104,19 +112,23 @@ function makeStateButton(state) {
 
 //function that changes dropdown from states to cities
 function changeToCitiesFromStates(e) {
+  //change the drop down from states container to city container
     button.innerText = "Please Choose A City"
     let statesContainer = document.getElementById("states-container")
     statesContainer.removeAttribute("id", "states-container")
     statesContainer.setAttribute("id", "cities-container")
     let citiesContainer = document.getElementById("cities-container")
     citiesContainer.innerHTML = ""
+    //setting variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityPath = statesPath + `/${stateId}/cities`
     //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
     fetch(cityPath)
+      //turn the response into json
         .then(function(obj){
             return obj.json()
         })
+        //interate over array to make cities in dropdown
         .then(function(citiesArray) {
             citiesArray.forEach((city) => {citiesContainer.innerHTML += makeCityButton(city)})
         })
@@ -124,6 +136,7 @@ function changeToCitiesFromStates(e) {
 
 //function that changes dropdown menu to cities
 function backToCities(e) {
+  // change options container back to cities container & remove the events div
     button.innerText = "Please Choose A City"
     let eventsDiv = document.getElementById("events-div")   
     eventsDiv.remove()
@@ -132,6 +145,7 @@ function backToCities(e) {
     optionsContainer.setAttribute("id", "cities-container")
     let citiesContainer = document.getElementById("cities-container")
     citiesContainer.innerHTML = ""
+  //set variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityPath = statesPath + `/${stateId}/cities`
     fetch(cityPath)
@@ -152,20 +166,24 @@ function makeCityButton(city) {
 
 //function that changes city dropdown to menu drop down and displays event cards
 function changeToEventsFromCities(e) {
+  //create menu drop down from cities dropdown
     button.innerText = "Menu"
     let citiesContainer = document.getElementById("cities-container")
     citiesContainer.removeAttribute("id", "cities-container")
     citiesContainer.setAttribute("id", "options-container")
     let optionsContainer = document.getElementById("options-container")
+    //add in datasets to access in form and in backToCities
     optionsContainer.innerHTML = `
     <button class="dropdown-item" id="newEvent" data-cityname="${e.target.dataset.cityname}" data-city="${e.target.dataset.city}" data-state="${e.target.dataset.state}" type="button">Make A New Event!</button>
     <button class="dropdown-item" id="backToStates" type="button">Go Back To States</button>
     <button class="dropdown-item" id="backToCities" data-state="${e.target.dataset.state}" type="button">Go Back To Cities</button>
     `
+    //create an events div
     let eventsDiv = document.createElement('div')
     eventsDiv.setAttribute("id", "events-div")
     app.appendChild(eventsDiv)
     eventsDiv.innerHTML += `<h3 style="color: warning;">Here's every event in ${e.target.innerText}:</h3>`
+    //set variables to pass into fetch request
     let stateId = e.target.dataset.state
     let cityId = e.target.dataset.city
     let eventsPath = statesPath + `/${stateId}/cities/${cityId}/events`
@@ -181,13 +199,17 @@ function changeToEventsFromCities(e) {
 
 //function to change back to events after making a new event
 function changeToEventsFromForm(eventsArray, e) {
+  //remove the form
   let formDiv = document.getElementById("events-div")
   formDiv.remove()
+  //create a div for event cards
   let eventsDiv = document.createElement('div')
   eventsDiv.setAttribute("id", "events-div")
   app.appendChild(eventsDiv)
   eventsDiv.innHTML = ""
+  //need e argument passed in to get cityname!!!
   eventsDiv.innerHTML += `<h3 style="color: warning;">Here's every event in ${e.target.dataset.cityname}:</h3>`
+  //iterate over passed in json array of events to make event cards
   eventsArray.forEach((event) => {eventsDiv.innerHTML += makeEventCard(event)})
 };
 
@@ -307,10 +329,3 @@ function renderNewEventForm(e) {
     <button type="submit" class="btn btn-outline-info">Submit</button>
   </form>`
 }
-
-
-
-
-//<button class="dropdown-item" type="button"> State 1</button>
-//<button class="dropdown-item" type="button"> State 2</button>
-//<button class="dropdown-item" type="button"> State 3</button>
