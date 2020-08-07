@@ -3,6 +3,7 @@ const statesPath = "http:/localhost:3000/states"
 const app = document.getElementById("app")
 const button = document.getElementById("dropdownMenu2")
 
+
 //first function call to render states on landing page
 renderStates()
 
