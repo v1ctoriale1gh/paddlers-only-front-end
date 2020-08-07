@@ -68,7 +68,7 @@
     top: calc(50% - 2px);
 }
 
-div.dropdown-menu#states-container:onclick {
+div.dropdown-#states-container:onclick {
   position: relative !important; 
     will-change: transform;
     top: 0px;

@@ -216,7 +216,7 @@ function changeToEventsFromForm(eventsArray, e) {
 //function to make an event - is called in changeToEventsFromCities
 function makeEventCard(event) {
     return `
-    <div class="card col-md-8 mx-auto" style="max-width: 18rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
+    <div class="card col-md-8 mx-auto" style="max-width: 18rem; color: rgba(22, 72, 114, 0.81); background-color: #e28640;">
       <div class="card-header">${event.name}</div>
       <div class="card-body">
         <h5 class="card-title">Warning card title</h5>
@@ -232,7 +232,7 @@ function renderNewEventForm(e) {
     let eventsDiv = document.getElementById("events-div")
     eventsDiv.innerHTML = `
     <br><br>
-    <div class="card col-md-8 mx-auto justify-content-center" style="max-width: 50rem; color: rgba(12, 134, 149, 0.94); background-color: #e28640;">
+    <div class="card col-md-8 mx-auto justify-content-center" style="max-width: 50rem; color: rgba(22, 72, 114, 0.81); background-color: #e28640;">
     <form data-state="${e.target.dataset.state}" data-city="${e.target.dataset.city}" data-cityname="${e.target.dataset.cityname}">
     <div class="form-row">
       <div class="form-group col-md-6">
