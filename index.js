@@ -142,9 +142,6 @@ function backToCities(e) {
     let cityAdapter = new CityAdapter(cityPath)
     //FETCH REQUEST #2 GET REQUEST TO CITIES INDEX
     cityAdapter.fetchCities()
-        .then(function(obj){
-            return obj.json()
-        })
         .then(function(citiesArray) {
             citiesArray.forEach((city) => {citiesContainer.innerHTML += makeCityButton(city)})
         });
