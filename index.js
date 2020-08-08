@@ -181,9 +181,13 @@ function changeToEventsFromCities(e) {
     let eventAdapter = new EventAdapter(eventsPath)
     //fetch request inside of event adapter
     eventAdapter.fetchEvents()
-              .then(function(eventsArray) {
+              .then(eventsArray => {
+                if (!!eventsArray.errors){
+                  alert(eventsArray.errors)
+                } else {
                   eventsArray.forEach((event) => {eventsDiv.innerHTML += makeEventCard(event)})
-              })
+                }
+              }).catch(errors => alert(errors))
 };
 
 //function to change back to events after making a new event
@@ -205,10 +209,11 @@ function changeToEventsFromForm(eventsArray, e) {
 //function to make an event - is called in changeToEventsFromCities
 function makeEventCard(event) {
     return `
-    <div class="card col-md-8 mx-auto" style="max-width: 18rem; color: rgba(22, 72, 114, 0.81); background-color: #e28640;">
+    <div class="card col-md-8 mx-auto" style="max-width: 60rem; color: rgba(22, 72, 114, 0.81); background-color: #e28640;">
       <div class="card-header">${event.name}</div>
       <div class="card-body">
-        <h5 class="card-title">Warning card title</h5>
+        <h4 class="card-title">${event.date}</h5>
+        <p class="card-text">${event.address}</p>
         <p class="card-text">${event.description}</p>
      </div>
    </div>
