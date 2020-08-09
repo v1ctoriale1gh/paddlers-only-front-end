@@ -208,11 +208,15 @@ function changeToEventsFromForm(eventsArray, e) {
 
 //function to make an event - is called in changeToEventsFromCities
 function makeEventCard(event) {
+//deconstruction to create a date object to change format
+let date = event.date;
+let [year, month, day] = date.split('-');
+let dateObj = {month, day, year};
     return `
     <div class="card col-md-8 mx-auto" style="max-width: 60rem; color: rgba(22, 72, 114, 0.81); background-color: #e28640;">
       <div class="card-header">${event.name}</div>
       <div class="card-body">
-        <h4 class="card-title">${event.date}</h5>
+        <h4 class="card-title">${dateObj.month}-${dateObj.day}-${dateObj.year}</h5>
         <p class="card-text">${event.address}</p>
         <p class="card-text">${event.description}</p>
      </div>
