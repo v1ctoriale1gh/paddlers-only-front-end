@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "paddlers-only-front-end",
+			"path": "."
+		},
+		{
+			"path": "../paddlers-only"
+		}
+	],
+	"settings": {}
+}

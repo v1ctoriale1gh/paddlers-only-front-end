@@ -4,6 +4,10 @@ class StateAdapter{
     }
     fetchStates() {
         return fetch(this.baseURL)
-        .then((obj) => obj.json())
-    }
+        .then((obj) => {
+            //looking at what's inside of promises in the comment below
+            //console.log(obj); 
+            return obj.json()
+    })
+}
 }

@@ -6,4 +6,8 @@ class CityAdapter{
         return fetch(this.baseURL)
         .then((obj) => obj.json())
     }
+
+   // static staticFn = () => {
+   //     console.log('static')
+   // }
 }

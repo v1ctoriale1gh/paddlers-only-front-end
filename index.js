@@ -25,7 +25,7 @@ app.addEventListener("click", (e) => {
 });
 
 // event listener for new event form
-app.addEventListener("submit", (e) => {
+app.addEventListener("submit", e => {
   // prevent the form from submitting
   e.preventDefault()
   // create an array to make the config object
@@ -106,6 +106,7 @@ function makeStateButton(state) {
 function changeToCitiesFromStates(e) {
   //change the drop down from states container to city container
     button.innerText = "Please Choose A City"
+    window.scrollTo(0, 0);
     let statesContainer = document.getElementById("states-container")
     statesContainer.removeAttribute("id", "states-container")
     statesContainer.setAttribute("id", "cities-container")
@@ -128,6 +129,7 @@ function changeToCitiesFromStates(e) {
 function backToCities(e) {
   // change options container back to cities container & remove the events div
     button.innerText = "Please Choose A City"
+    window.scrollTo(0, 0);
     let eventsDiv = document.getElementById("events-div")   
     eventsDiv.remove()
     let optionsContainer = document.getElementById("options-container")
@@ -208,7 +210,7 @@ function changeToEventsFromForm(eventsArray, e) {
 
 //function to make an event - is called in changeToEventsFromCities
 function makeEventCard(event) {
-//deconstruction to create a date object to change format
+//destructuring to create a date object to change format
 let date = event.date;
 let [year, month, day] = date.split('-');
 let dateObj = {month, day, year};
