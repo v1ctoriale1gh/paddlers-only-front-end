@@ -1,5 +1,4 @@
-//beginning const variables
-
+//const variables - const variables do not change/ cannot be redefined
 const app = document.getElementById("app")
 const button = document.getElementById("dropdownMenu2")
 
@@ -106,6 +105,7 @@ function makeStateButton(state) {
 function changeToCitiesFromStates(e) {
   //change the drop down from states container to city container
     button.innerText = "Please Choose A City"
+    //browser window (ooo00oooohhhh execution context is the global object)
     window.scrollTo(0, 0);
     let statesContainer = document.getElementById("states-container")
     statesContainer.removeAttribute("id", "states-container")
