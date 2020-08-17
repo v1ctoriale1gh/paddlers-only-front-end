@@ -1,5 +1,5 @@
 
-Area for notes - sorry Reviewer I hope this is okay - I'm worried I will get nervous and forget LOL
+Area for notes - sorry *Reviewer* I hope this is okay - I'm worried I will get nervous and forget LOL
 
 (also I realize these are pretty low resolution explanations of these concepts)
 
@@ -20,7 +20,7 @@ Area for notes - sorry Reviewer I hope this is okay - I'm worried I will get ner
 - asynchronous functions (like AJAX calls where you are waiting for a promise to be fulfilled or setInterval or setTimeOut)  are actually using another function of the browser, not the js engine, the event cue, and when all of the functions on the callstack are finished the events on the event cue are added to the callstack 
 - javascript does very weird stuff with coercion... it can be unpredictable it is better to use === the strictly equals that the loosely equals == 
 - fetch returns a promise not json thats why u take the object and turn it into json.... woah there is a lot of stuff in promises 
-- *******(reviewer do you have any cool tips about things to find or how to navigate promises?)
+- **reviewer** do you have any cool tips about things to find in or how to navigate promises?)
 
 
 - also dont flipping forget it destructuring looks like this:

@@ -59,7 +59,7 @@ app.addEventListener("submit", e => {
                   if (!!eventsArray.errors){
                       alert(eventsArray.errors)
                   } else {
-                    //following pessimistic rendering rendering the events again after getting response from server
+                    //following pessimistic rendering the events again after getting response from server
                     changeToEventsFromForm(eventsArray, e)
                   }
               })
