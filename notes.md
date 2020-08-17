@@ -1,8 +1,15 @@
 
 Area for notes - sorry Reviewer I hope this is okay - I'm worried I will get nervous and forget LOL
 
-execution context - a global object is created (the window) and this - this is set to the window
-- scope is where are variables available
+(also I realize these are pretty low resolution explanations of these concepts)
+
+- execution context - a global object is created (the window) and this - this is set to the window 
+    -when a function is being executed a new execution contect
+    - If this is undefined the value of this is the window ()
+    - the global execution context which means the variable scope has been lost and is being set in the original glocal execution context
+    - this can happen with callback functions
+    - .bind and arrow functions bind the execution context so it is not lost and set to window/global      execution context (also call and apply)
+- scope is where variables available
 - on the first pass (compiling stage of running the program in the javascript engine)
 - space is made for variables and functions in memory
 - this is basically what hoisting is (it's not actually moving the code around lexically)
