@@ -3,7 +3,7 @@ const app = document.getElementById("app")
 const button = document.getElementById("dropdownMenu2")
 
 //FETCH REQUEST IS IN STATE ADAPTER - initialize a new one with a baseURL
-const stateAdapter = new StateAdapter("http:/localhost:3000/states")
+const stateAdapter = new StateAdapter("https://paddlers-only-back-end.herokuapp.com/states")
 
 //first function call to render states on landing page
 renderStates()
@@ -50,7 +50,7 @@ app.addEventListener("submit", e => {
   }}
 
   //initialize new event adapter
-  let eventAdapter = new EventAdapter(`http://localhost:3000/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`)
+  let eventAdapter = new EventAdapter(`https://paddlers-only-back-end.herokuapp.com/states/${e.target.dataset.state}/cities/${e.target.dataset.city}/events`)
   //FETCH REQUEST #4 POST REQUEST (THIS FILLS ALL THE PROJECT REQUIREMENTS)
   // make the fetch request (post to events index)
   eventAdapter.createEvent(configObject)
